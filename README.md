@@ -1,6 +1,6 @@
-# React-Redux Template
+# Charades
 
-This is a template for building web applications
+This app allows a group of people to play charades together.
 
 ## Features
 
