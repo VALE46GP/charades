@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const answerSchema = mongoose.Schema({
     answer: String,
-    name: String,
+    username: String,
     created_at: Date,
 });
 

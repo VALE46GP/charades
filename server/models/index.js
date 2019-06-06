@@ -96,7 +96,7 @@ const registerGame = (err, data, res) => {
 /**
  * Submit an answer to game
  *
- * @param {answer} err
+ * @param {string} err
  * @param {object} answer: {
  *     answer: {string},
  *     name: {string},
@@ -113,7 +113,59 @@ const submitAnswer = (err, answer, res) => {
         });
 };
 
+/**
+ * Get a random answer from db that was not created by the username
+ *
+ * @param {string} err
+ * @param {string} username
+ * @param res
+ */
+const getAnswer = (err, username, res) => {
+    console.log('getAnswer is called by ', username);
+
+    // Get the count of all answers
+    Answer.count().exec((err, count) => {
+
+        // Get a random entry
+        const random = Math.floor(Math.random() * count);
+
+        // Again query all users but only fetch one offset by our random #
+        Answer.findOne().skip(random).exec(
+            (err, answer) => {
+                console.log('>>>>>>>>> answer = ', answer);
+                console.log('getAnswer ID "' + answer._id + '" and was created by "' + answer.username + '"');
+
+                // make sure the answer was not created by the username
+                if (err) {
+                    console.log(err);
+                } else if (username === answer.username) {
+                    console.log('>>>>> RECURSION!! <<<<<');
+                    getAnswer(null, username, res);
+                } else {
+                    console.log('>>>>> ANSWER FOUND <<<<<>>>>>', answer);
+                    res.send(answer);
+                }
+            });
+    });
+
+
+    // Answer.aggregate([{ $sample: { size: 1 } }])
+    //     .then((answer) => {
+    //         console.log('>>>>>>>>> answer = ', answer);
+    //         console.log('getAnswer ID "' + answer._id + '" and was created by "' + answer.username + '"');
+    //         console.log('>>>>>>>>> >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+    //         if (err) {
+    //             console.log(err);
+    //         } else if (username === answer.username) {
+    //             getAnswer(null, username, res);
+    //         } else {
+    //             res.send(answer);
+    //         }
+    //     });
+};
+
 module.exports.registerUser = registerUser;
 module.exports.login = login;
 module.exports.registerGame = registerGame;
 module.exports.submitAnswer = submitAnswer;
+module.exports.getAnswer = getAnswer;

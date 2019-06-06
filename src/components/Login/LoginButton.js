@@ -21,7 +21,7 @@ class LoginButton extends Component {
         } else {
             // post newUser to db
             axios.post('/user/login', {
-                username,
+                username: username,
                 password: hash(password),
             })
                 // setUser in app state

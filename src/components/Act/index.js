@@ -3,15 +3,22 @@ import './index.css';
 import Button from "react-bootstrap/Button";
 
 const Act = (props) => {
-    const { changeMode } = props;
+    const { username, changeMode, answer, getAnswer } = props;
+
+    const answerDefault = answer ? answer.answer : 'Your turn to act!';
 
     return (
         <div>
-            <h2>Act</h2>
+            <h2>{answerDefault}</h2>
+            <Button
+                variant="danger"
+                onClick={() => getAnswer(username)}
+            >Act out the next answer</Button>
+            <br />
             <Button
                 variant="success"
                 onClick={() => changeMode('guess')}
-            >Guess</Button>
+            >Back to guessing</Button>
         </div>
     );
 };

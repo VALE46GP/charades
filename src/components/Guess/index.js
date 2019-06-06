@@ -13,7 +13,7 @@ class Guess extends Component {
         super(props);
         this.state = {
             answer: 'answer...',
-            name: props.user.username,
+            username: props.user.username,
             isLoading: false,
         };
         this.handleAnswerChange = this.handleAnswerChange.bind(this);
@@ -29,13 +29,13 @@ class Guess extends Component {
 
     handleNameChange = (event) => {
         this.setState({
-            name: event.target.value,
+            username: event.target.value,
         })
     };
 
     submitAnswer() {
-        const { answer, name } = this.state;
-        if (name.match(/^[0-9a-zA-Z]{0,16}$/) && answer !== 'answer...') {
+        const { answer, username } = this.state;
+        if (username.match(/^[0-9a-zA-Z]{0,16}$/) && answer !== 'answer...') {
             this.setState({
                 answer: 'answer...',
                 isLoading: true,
@@ -43,7 +43,7 @@ class Guess extends Component {
                 axios.post('/game/answers',
                     {
                         answer,
-                        name,
+                        username,
                         created_at: new Date(),
                     }
                 )
@@ -52,11 +52,10 @@ class Guess extends Component {
                     });
             });
         }
-
     }
 
     render() {
-        const { isLoading, name, answer } = this.state;
+        const { isLoading, username, answer } = this.state;
         const { changeMode } = this.props;
         return (
             <div>
@@ -67,7 +66,7 @@ class Guess extends Component {
                     onChange={this.handleAnswerChange}
                 />
                 <p />
-                <InvalidUsernameAlert username={name}/>
+                <InvalidUsernameAlert username={username}/>
                 <InputGroup className="mb-3">
                     <InputGroup.Prepend>
                         <Button
@@ -83,7 +82,7 @@ class Guess extends Component {
                         </Button>
                     </InputGroup.Prepend>
                     <FormControl
-                        placeholder={name}
+                        placeholder={username}
                         aria-label="name"
                         aria-describedby="basic-addon2"
                         onChange={this.handleNameChange}

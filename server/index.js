@@ -46,14 +46,19 @@ handle().then((db, err) => {
         logger('db', err || 'POST successful: ', req.body);
     });
 
-    app.get('*', (req, res) => {
-        console.log(`sendFile: ${path.join(__dirname, '/../build', 'index.html')}`);
-        res.sendFile(path.join(__dirname, '/../build', 'index.html'));
-    });
-
     app.post('/game/answers', (req, res) => {
         model.submitAnswer(null, req.body, res);
         logger('db', err || 'POST answer submission successful: ', req.body);
+    });
+
+    app.get('/game/answers', (req, res) => {
+        model.getAnswer(null, req.query.username, res);
+        logger('db', err || 'GET answer request successful: ', req.body);
+    });
+
+    app.get('*', (req, res) => {
+        console.log(`sendFile: ${path.join(__dirname, '/../build', 'index.html')}`);
+        res.sendFile(path.join(__dirname, '/../build', 'index.html'));
     });
 
     index.listen(port, () => {
