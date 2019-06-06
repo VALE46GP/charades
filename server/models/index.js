@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import User from '../schemas/user';
 import Game from '../schemas/game';
+import Answer from '../schemas/answer';
 
 mongoose.connect('mongodb://localhost:27017/charades');
 
@@ -92,6 +93,27 @@ const registerGame = (err, data, res) => {
         });
 };
 
+/**
+ * Submit an answer to game
+ *
+ * @param {answer} err
+ * @param {object} answer: {
+ *     answer: {string},
+ *     name: {string},
+ *     created_at: {date},
+ * }
+ * @param res
+ */
+const submitAnswer = (err, answer, res) => {
+    const newAnswer = new Answer(answer);
+    newAnswer.save()
+        .then((answer) => {
+            console.log('New game "' + answer.answer + '" created by "' + answer.name);
+            res.sendStatus(200);
+        });
+};
+
 module.exports.registerUser = registerUser;
 module.exports.login = login;
 module.exports.registerGame = registerGame;
+module.exports.submitAnswer = submitAnswer;

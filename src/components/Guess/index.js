@@ -45,6 +45,7 @@ class Guess extends Component {
                     {
                         answer,
                         name,
+                        created_at: new Date(),
                     }
                 )
                     .then(() => {

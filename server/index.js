@@ -51,6 +51,11 @@ handle().then((db, err) => {
         res.sendFile(path.join(__dirname, '/../build', 'index.html'));
     });
 
+    app.post('/game/answers', (req, res) => {
+        model.submitAnswer(null, req.body, res);
+        logger('db', err || 'POST answer submission successful: ', req.body);
+    });
+
     index.listen(port, () => {
         console.log('listening on port ', port);
     });
