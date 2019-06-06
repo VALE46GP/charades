@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ControlsContainer from '../Navigation/container';
-import CurrentGameContainer from '../CurrentGame/container';
-import AnswerSubmissionContainer from '../AnswerSubmission/container';
+import ActContainer from '../Act/container';
+import GuessContainer from '../Guess/container';
 import LoginContainer from '../Login/container';
 import './index.css';
 
@@ -11,38 +11,34 @@ class App extends Component {
     }
 
     render() {
-        const { user } = this.props;
-        const content = user
-            ? (
-                <div className="App">
-                    <ControlsContainer />
-                    <CurrentGameContainer />
-                    <AnswerSubmissionContainer />
-                </div>
-            )
-            : (
+        const { user, mode } = this.props;
+        let content;
+
+        if (user && mode === 'guess') {
+            content = (
+                <GuessContainer />
+            );
+        } else if (user && mode === 'act') {
+            content = (
+                <ActContainer />
+            );
+        } else {
+            content = (
                 <LoginContainer
                     show={!user}
                 />
             );
+        }
 
         return (
-            <div>
-                <div className="area">
-                    <ul className="circles">
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                    </ul>
+            <div className="App">
+                <ControlsContainer />
+                <div className="bg"></div>
+                <div className="bg bg2"></div>
+                <div className="bg bg3"></div>
+                <div className="content">
+                    {content}
                 </div>
-                {content}
             </div>
         )
     }

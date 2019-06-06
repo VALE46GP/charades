@@ -1,4 +1,4 @@
-import CurrentGame from './index';
+import Act from './index';
 import { connect } from 'react-redux';
 
 // const mapStateToProps = (state) => {
@@ -12,6 +12,6 @@ import { connect } from 'react-redux';
 //     });
 // };
 
-const CurrentGameContainer = connect(null, null)(CurrentGame);
+const ActContainer = connect(null, null)(Act);
 
-export default CurrentGameContainer;
+export default ActContainer;

@@ -1,4 +1,4 @@
-import AnswerSubmission from './index';
+import Guess from './index';
 import { connect } from 'react-redux';
 
 // const mapStateToProps = (state) => {
@@ -12,6 +12,6 @@ import { connect } from 'react-redux';
 //     });
 // };
 
-const AnswerSubmissionContainer = connect(null, null)(AnswerSubmission);
+const GuessContainer = connect(null, null)(Guess);
 
-export default AnswerSubmissionContainer;
+export default GuessContainer;

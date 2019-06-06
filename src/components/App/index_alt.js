@@ -1,6 +1,6 @@
 import React from 'react';
 import ControlsContainer from '../Navigation/container';
-import ResultsContainer from '../AnswerSubmission/container';
+import ResultsContainer from '../Guess/container';
 import './index.css';
 
 const App = (props) => {

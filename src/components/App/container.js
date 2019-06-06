@@ -2,9 +2,10 @@ import App from './index';
 import { connect } from 'react-redux';
 
 const mapStateToProps = (state) => {
-    const { user } = state;
+    const { user, mode } = state;
     return ({
         user,
+        mode,
     });
 };
 

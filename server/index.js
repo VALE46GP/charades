@@ -7,12 +7,10 @@ import logger from './lib/logger';
 import http from 'http';
 import api from './apis/api';
 import model from './models/index';
-import socket_io from 'socket.io';
 
 const app = express();
 const port = process.env.PORT || 8080;
 const index = http.Server(app);
-const io = socket_io(index);
 
 
 handle().then((db, err) => {
@@ -51,13 +49,6 @@ handle().then((db, err) => {
     app.get('*', (req, res) => {
         console.log(`sendFile: ${path.join(__dirname, '/../build', 'index.html')}`);
         res.sendFile(path.join(__dirname, '/../build', 'index.html'));
-    });
-
-    io.on('connection', (socket) => {
-        console.log('a user connected');
-        socket.on('disconnect', () => {
-            console.log('user disconnected');
-        });
     });
 
     index.listen(port, () => {
