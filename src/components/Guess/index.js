@@ -6,6 +6,8 @@ import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
 import './index.css';
+import InvalidUsernameAlert from "../Login/InvalidUsernameAlert";
+import Modal from "react-bootstrap/Modal";
 
 class Guess extends Component {
     constructor(props) {
@@ -34,20 +36,22 @@ class Guess extends Component {
 
     submitAnswer() {
         const { answer, name } = this.state;
-        this.setState({
-            answer: '',
-            isLoading: true,
-        }, () => {
-            axios.post('/game/add-answer',
-                {
-                    answer,
-                    name,
-                }
-            )
-                .then(() => {
-                    this.setState({ isLoading: false });
-                });
-        });
+        if (name.match(/^[0-9a-zA-Z]{0,16}$/)) {
+            this.setState({
+                answer: '',
+                isLoading: true,
+            }, () => {
+                axios.post('/game/add-answer',
+                    {
+                        answer,
+                        name,
+                    }
+                )
+                    .then(() => {
+                        this.setState({ isLoading: false });
+                    });
+            });
+        }
 
     }
 
@@ -61,15 +65,10 @@ class Guess extends Component {
                     as="textarea" rows="2"
                     onChange={this.handleAnswerChange}
                 />
-                <br />
+                <p />
+                <InvalidUsernameAlert username={name}/>
                 <InputGroup className="mb-3">
-                    <FormControl
-                        placeholder={name}
-                        aria-label={name}
-                        aria-describedby="basic-addon2"
-                        onChange={this.handleNameChange}
-                    />
-                    <InputGroup.Append>
+                    <InputGroup.Prepend>
                         <Button
                             variant="outline-secondary"
                             disabled={isLoading}
@@ -79,11 +78,16 @@ class Guess extends Component {
                                 ? <Spinner animation="border" role="status">
                                     <span className="sr-only">Loading...</span>
                                 </Spinner>
-                                : 'Submit'}
+                                : 'Submit as:'}
                         </Button>
-                    </InputGroup.Append>
+                    </InputGroup.Prepend>
+                    <FormControl
+                        placeholder={name}
+                        aria-label={name}
+                        aria-describedby="basic-addon2"
+                        onChange={this.handleNameChange}
+                    />
                 </InputGroup>
-                <br />
                 <Button variant="danger">It's my turn to act!</Button>
             </div>
         );
