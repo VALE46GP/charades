@@ -7,13 +7,12 @@ import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
 import './index.css';
 import InvalidUsernameAlert from "../Login/InvalidUsernameAlert";
-import Modal from "react-bootstrap/Modal";
 
 class Guess extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            answer: '',
+            answer: 'answer...',
             name: props.user.username,
             isLoading: false,
         };
@@ -36,9 +35,9 @@ class Guess extends Component {
 
     submitAnswer() {
         const { answer, name } = this.state;
-        if (name.match(/^[0-9a-zA-Z]{0,16}$/)) {
+        if (name.match(/^[0-9a-zA-Z]{0,16}$/) && answer !== 'answer...') {
             this.setState({
-                answer: '',
+                answer: 'answer...',
                 isLoading: true,
             }, () => {
                 axios.post('/game/answers',
@@ -57,12 +56,13 @@ class Guess extends Component {
     }
 
     render() {
-        const { isLoading, name } = this.state;
+        const { isLoading, name, answer } = this.state;
+        const { changeMode } = this.props;
         return (
             <div>
                 <Form.Control
-                    placeholder="answer..."
-                    aria-label="answer..."
+                    placeholder={answer}
+                    aria-label="answer"
                     as="textarea" rows="2"
                     onChange={this.handleAnswerChange}
                 />
@@ -84,12 +84,15 @@ class Guess extends Component {
                     </InputGroup.Prepend>
                     <FormControl
                         placeholder={name}
-                        aria-label={name}
+                        aria-label="name"
                         aria-describedby="basic-addon2"
                         onChange={this.handleNameChange}
                     />
                 </InputGroup>
-                <Button variant="danger">It's my turn to act!</Button>
+                <Button
+                    variant="danger"
+                    onClick={() => changeMode('act')}
+                >It's my turn to act!</Button>
             </div>
         );
     };
