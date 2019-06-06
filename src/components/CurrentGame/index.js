@@ -1,13 +1,13 @@
 import React from 'react';
 import './index.css';
 
-const Body = (props) => {
+const CurrentGame = (props) => {
     const {
     } = props;
 
     return (
-        <h2>Body</h2>
+        <h2>CurrentGame</h2>
     );
 };
 
-export default Body;
+export default CurrentGame;

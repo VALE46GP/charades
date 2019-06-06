@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import User from '../schemas/user';
+import Game from '../schemas/game';
 
 mongoose.connect('mongodb://localhost:27017/charades');
 
@@ -9,11 +10,11 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', () => console.log('We\'re connected.'));
 
 /**
- * Register user and password
+ * Register user and password (if user does not already exist)
  *
  * @param {string} err
  * @param {object} data: {username: {String}, password {String}}
- * @returns {function} callback
+ * @param res
  */
 const registerUser = (err, data, res) => {
     User.findOne({
@@ -40,6 +41,13 @@ const registerUser = (err, data, res) => {
     });
 };
 
+/**
+ * Login user with password (if there is a match)
+ *
+ * @param {string} err
+ * @param {object} data: {username: {String}, password {String}}
+ * @param res
+ */
 const login = (err, data, res) => {
     User.findOne({
         username: data.username,
@@ -59,5 +67,31 @@ const login = (err, data, res) => {
     });
 };
 
+/**
+ * Register a new game
+ *
+ * @param {string} err
+ * @param {object} data: {
+ *     name: {string},
+ *     created_by: String,
+ * }
+ * @param res
+ */
+const registerGame = (err, data, res) => {
+    const newGame = new Game({
+        name: data.name,
+        start_date: new Date(),
+        registered_players: [data.created_by],
+        answers: [],
+        turn: {},
+    });
+    newGame.save()
+        .then((game) => {
+            console.log('New game "' + game.name + '" created.');
+            res.send(game);
+        });
+};
+
 module.exports.registerUser = registerUser;
 module.exports.login = login;
+module.exports.registerGame = registerGame;

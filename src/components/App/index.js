@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ControlsContainer from '../Navigation/container';
-import ResultsContainer from '../Body/container';
+import CurrentGameContainer from '../CurrentGame/container';
+import AnswerSubmissionContainer from '../AnswerSubmission/container';
 import LoginContainer from '../Login/container';
 import './index.css';
 
@@ -15,7 +16,8 @@ class App extends Component {
             ? (
                 <div className="App">
                     <ControlsContainer />
-                    <ResultsContainer />
+                    <CurrentGameContainer />
+                    <AnswerSubmissionContainer />
                 </div>
             )
             : (

@@ -1,4 +1,4 @@
-import Body from './index';
+import AnswerSubmission from './index';
 import { connect } from 'react-redux';
 
 // const mapStateToProps = (state) => {
@@ -12,6 +12,6 @@ import { connect } from 'react-redux';
 //     });
 // };
 
-const BodyContainer = connect(null, null)(Body);
+const AnswerSubmissionContainer = connect(null, null)(AnswerSubmission);
 
-export default BodyContainer;
+export default AnswerSubmissionContainer;
