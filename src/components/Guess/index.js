@@ -41,7 +41,7 @@ class Guess extends Component {
                 answer: '',
                 isLoading: true,
             }, () => {
-                axios.post('/game/add-answer',
+                axios.post('/game/answers',
                     {
                         answer,
                         name,
