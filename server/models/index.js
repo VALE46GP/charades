@@ -147,22 +147,22 @@ const getAnswer = (err, username, res) => {
                     console.log('>>>>> ANSWER FOUND <<<<<>>>>>', answer);
 
                     // remove answer from answer table and insert into answer_history table
-                    Answer.deleteOne({ _id: answer._id}, (err) => {
-                        if (err) {
-                            console.log(err);
-                        } else {
-                            const newAnswerHistory = new AnswerHistory({
-                                answer: answer.answer,
-                                username: answer.username,
-                                created_at: answer.created_at,
-                                last_used: new Date(),
-                            });
-                            newAnswerHistory.save()
-                                .then((answer) => {
-                                    console.log('Answer "' + answer.answer + '" added to history');
-                                });
-                        }
-                    });
+                    // Answer.deleteOne({ _id: answer._id}, (err) => {
+                    //     if (err) {
+                    //         console.log(err);
+                    //     } else {
+                    //         const newAnswerHistory = new AnswerHistory({
+                    //             answer: answer.answer,
+                    //             username: answer.username,
+                    //             created_at: answer.created_at,
+                    //             last_used: new Date(),
+                    //         });
+                    //         newAnswerHistory.save()
+                    //             .then((answer) => {
+                    //                 console.log('Answer "' + answer.answer + '" added to history');
+                    //             });
+                    //     }
+                    // });
                     res.send(answer);
                 }
             });

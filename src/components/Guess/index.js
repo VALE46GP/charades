@@ -12,7 +12,7 @@ class Guess extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            answer: 'answer...',
+            answer: '',
             username: props.user.username,
             isLoading: false,
         };
@@ -37,7 +37,7 @@ class Guess extends Component {
         const { answer, username } = this.state;
         if (username.match(/^[0-9a-zA-Z]{0,16}$/) && answer !== 'answer...') {
             this.setState({
-                answer: 'answer...',
+                answer: '',
                 isLoading: true,
             }, () => {
                 axios.post('/game/answers',
@@ -60,7 +60,8 @@ class Guess extends Component {
         return (
             <div>
                 <Form.Control
-                    placeholder={answer}
+                    value={answer}
+                    placeholder='answer...'
                     aria-label="answer"
                     as="textarea" rows="2"
                     onChange={this.handleAnswerChange}
