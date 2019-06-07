@@ -67,29 +67,18 @@ class Guess extends Component {
                 />
                 <p />
                 <InvalidUsernameAlert username={username}/>
-                <InputGroup className="mb-3">
-                    <InputGroup.Prepend>
-                        <Button
-                            variant="outline-secondary"
-                            disabled={isLoading}
-                            onClick={this.submitAnswer}
-                        >
-                            {isLoading
-                                ? <Spinner animation="border" role="status">
-                                    <span className="sr-only">Loading...</span>
-                                </Spinner>
-                                : 'Submit as:'}
-                        </Button>
-                    </InputGroup.Prepend>
-                    <FormControl
-                        placeholder={username}
-                        aria-label="name"
-                        aria-describedby="basic-addon2"
-                        onChange={this.handleNameChange}
-                    />
-                </InputGroup>
-
-
+                <Button
+                    variant="success"
+                    disabled={isLoading}
+                    onClick={this.submitAnswer}
+                >
+                    {isLoading
+                        ? <Spinner animation="border" role="status">
+                            <span className="sr-only">Loading...</span>
+                        </Spinner>
+                        : 'Submit'}
+                </Button>
+                <p />
                 <Button
                     variant="danger"
                     onClick={() => changeMode('act')}
