@@ -88,8 +88,6 @@ class Guess extends Component {
                         onChange={this.handleNameChange}
                     />
                 </InputGroup>
-
-
                 <Button
                     variant="danger"
                     onClick={() => changeMode('act')}

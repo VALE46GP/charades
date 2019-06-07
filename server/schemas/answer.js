@@ -6,6 +6,6 @@ const answerSchema = mongoose.Schema({
     created_at: Date,
 });
 
-const Answer = mongoose.model('Answer', answerSchema);
+const Answer = mongoose.model('answer', answerSchema);
 
 export default Answer;

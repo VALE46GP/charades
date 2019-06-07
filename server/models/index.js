@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import User from '../schemas/user';
 import Game from '../schemas/game';
 import Answer from '../schemas/answer';
+import AnswerHistory from '../schemas/answerHistory';
 
 mongoose.connect('mongodb://localhost:27017/charades');
 
@@ -68,30 +69,30 @@ const login = (err, data, res) => {
     });
 };
 
-/**
- * Register a new game
- *
- * @param {string} err
- * @param {object} data: {
- *     name: {string},
- *     created_by: String,
- * }
- * @param res
- */
-const registerGame = (err, data, res) => {
-    const newGame = new Game({
-        name: data.name,
-        start_date: new Date(),
-        registered_players: [data.created_by],
-        answers: [],
-        turn: {},
-    });
-    newGame.save()
-        .then((game) => {
-            console.log('New game "' + game.name + '" created.');
-            res.send(game);
-        });
-};
+// /**
+//  * Register a new game
+//  *
+//  * @param {string} err
+//  * @param {object} data: {
+//  *     name: {string},
+//  *     created_by: String,
+//  * }
+//  * @param res
+//  */
+// const registerGame = (err, data, res) => {
+//     const newGame = new Game({
+//         name: data.name,
+//         start_date: new Date(),
+//         registered_players: [data.created_by],
+//         answers: [],
+//         turn: {},
+//     });
+//     newGame.save()
+//         .then((game) => {
+//             console.log('New game "' + game.name + '" created.');
+//             res.send(game);
+//         });
+// };
 
 /**
  * Submit an answer to game
@@ -108,13 +109,14 @@ const submitAnswer = (err, answer, res) => {
     const newAnswer = new Answer(answer);
     newAnswer.save()
         .then((answer) => {
-            console.log('New game "' + answer.answer + '" created by "' + answer.name);
+            console.log('New answer "' + answer.answer + '" created by "' + answer.name);
             res.sendStatus(200);
         });
 };
 
 /**
  * Get a random answer from db that was not created by the username
+ * Then, remove that answer from the answer table and insert it into the answer_history table
  *
  * @param {string} err
  * @param {string} username
@@ -143,6 +145,24 @@ const getAnswer = (err, username, res) => {
                     getAnswer(null, username, res);
                 } else {
                     console.log('>>>>> ANSWER FOUND <<<<<>>>>>', answer);
+
+                    // remove answer from answer table and insert into answer_history table
+                    Answer.deleteOne({ _id: answer._id}, (err) => {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            const newAnswerHistory = new AnswerHistory({
+                                answer: answer.answer,
+                                username: answer.username,
+                                created_at: answer.created_at,
+                                last_used: new Date(),
+                            });
+                            newAnswerHistory.save()
+                                .then((answer) => {
+                                    console.log('Answer "' + answer.answer + '" added to history');
+                                });
+                        }
+                    });
                     res.send(answer);
                 }
             });
@@ -166,6 +186,6 @@ const getAnswer = (err, username, res) => {
 
 module.exports.registerUser = registerUser;
 module.exports.login = login;
-module.exports.registerGame = registerGame;
+// module.exports.registerGame = registerGame;
 module.exports.submitAnswer = submitAnswer;
 module.exports.getAnswer = getAnswer;

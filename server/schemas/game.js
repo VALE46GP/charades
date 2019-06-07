@@ -8,6 +8,6 @@ const gameSchema = mongoose.Schema({
     turn: Object,
 });
 
-const Game = mongoose.model('Game', gameSchema);
+const Game = mongoose.model('game', gameSchema);
 
 export default Game;
