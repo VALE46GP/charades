@@ -69,6 +69,23 @@ const login = (err, data, res) => {
     });
 };
 
+/**
+ * Deletes all users from db (except admin)
+ *
+ * @param {string} err
+ * @param res
+ */
+const deleteAllUsers = (err, res) => {
+    User.drop({ username: { $not: 'admin' } }, (err) => {
+        if (err) {
+            return console.error(err);
+        } else {
+            console.log('All users successfully deleted (except admin)');
+            res.sendStatus(204);
+        }
+    });
+};
+
 // /**
 //  * Register a new game
 //  *
@@ -184,8 +201,27 @@ const getAnswer = (err, username, res) => {
     //     });
 };
 
+/**
+ * Deletes all unused submissions (does not modify AnswerHistories table)
+ *
+ * @param {string} err
+ * @param res
+ */
+const deleteAllUsers = (err, res) => {
+    User.drop({ username: { $not: 'admin' } }, (err) => {
+        if (err) {
+            return console.error(err);
+        } else {
+            console.log('All users successfully deleted (except admin)');
+            res.sendStatus(204);
+        }
+    });
+};
+
 module.exports.registerUser = registerUser;
 module.exports.login = login;
+module.exports.deleteAllUsers = deleteAllUsers;
 // module.exports.registerGame = registerGame;
 module.exports.submitAnswer = submitAnswer;
 module.exports.getAnswer = getAnswer;
+module.exports.deleteAllAnwsers = deleteAllAnswers;
