@@ -46,6 +46,11 @@ handle().then((db, err) => {
         logger('db', err || 'POST successful: ', req.body);
     });
 
+    app.delete('/user', (req, res) => {
+        model.deleteAllUsers(null, res);
+        logger('db', err || 'DELETE Users deleted successfully: ', req.body);
+    });
+
     app.post('/game/answers', (req, res) => {
         model.submitAnswer(null, req.body, res);
         logger('db', err || 'POST answer submission successful: ', req.body);
@@ -59,6 +64,11 @@ handle().then((db, err) => {
     app.get('*', (req, res) => {
         console.log(`sendFile: ${path.join(__dirname, '/../build', 'index.html')}`);
         res.sendFile(path.join(__dirname, '/../build', 'index.html'));
+    });
+
+    app.delete('/game/answers', (req, res) => {
+        model.deleteAllAnswers(null, res);
+        logger('db', err || 'DELETE Users deleted successfully: ', req.body);
     });
 
     index.listen(port, () => {

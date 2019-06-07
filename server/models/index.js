@@ -207,15 +207,15 @@ const getAnswer = (err, username, res) => {
  * @param {string} err
  * @param res
  */
-const deleteAllUsers = (err, res) => {
-    User.drop({ username: { $not: 'admin' } }, (err) => {
-        if (err) {
-            return console.error(err);
-        } else {
-            console.log('All users successfully deleted (except admin)');
-            res.sendStatus(204);
-        }
-    });
+const deleteAllAnswers = (err, res) => {
+    Answer.drop()
+        .then(() => {
+            if (err) {
+                return console.log(err);
+            } else {
+                res.sendStatus(204);
+            }
+        });
 };
 
 module.exports.registerUser = registerUser;
@@ -224,4 +224,4 @@ module.exports.deleteAllUsers = deleteAllUsers;
 // module.exports.registerGame = registerGame;
 module.exports.submitAnswer = submitAnswer;
 module.exports.getAnswer = getAnswer;
-module.exports.deleteAllAnwsers = deleteAllAnswers;
+module.exports.deleteAllAnswers = deleteAllAnswers;
