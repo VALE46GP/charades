@@ -5,18 +5,24 @@ import Button from "react-bootstrap/Button";
 const Act = (props) => {
     const { username, changeMode, answer, getAnswer } = props;
 
-    let answerDefault = 'Your turn to act!';
+    let answerDefault = (
+        <div>
+            <h3>Your turn to act!</h3>
+            <p />
+        </div>
+    );
 
     if (answer) answerDefault = (
         <div>
             <h2>{answer.answer}</h2>
-            <p>submitted by {answer.username}</p>
+            <small>submitted by <b>{answer.username}</b></small>
+            <p />
         </div>
     );
 
     return (
         <div>
-            <h2>{answerDefault}</h2>
+            {answerDefault}
             <Button
                 variant="danger"
                 onClick={() => getAnswer(username)}
