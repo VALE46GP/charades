@@ -61,14 +61,14 @@ handle().then((db, err) => {
         logger('db', err || 'GET answer request successful: ', req.body);
     });
 
-    app.get('*', (req, res) => {
-        console.log(`sendFile: ${path.join(__dirname, '/../build', 'index.html')}`);
-        res.sendFile(path.join(__dirname, '/../build', 'index.html'));
-    });
-
     app.delete('/game/answers', (req, res) => {
         model.deleteAllAnswers(null, res);
         logger('db', err || 'DELETE Users deleted successfully: ', req.body);
+    });
+
+    app.get('*', (req, res) => {
+        console.log(`sendFile: ${path.join(__dirname, '/../build', 'index.html')}`);
+        res.sendFile(path.join(__dirname, '/../build', 'index.html'));
     });
 
     index.listen(port, () => {

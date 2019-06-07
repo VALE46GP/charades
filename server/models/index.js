@@ -76,7 +76,7 @@ const login = (err, data, res) => {
  * @param res
  */
 const deleteAllUsers = (err, res) => {
-    User.drop({ username: { $not: 'admin' } }, (err) => {
+    User.deleteMany({ username: { $ne: 'admin' } }, (err) => {
         if (err) {
             return console.error(err);
         } else {
@@ -145,6 +145,13 @@ const getAnswer = (err, username, res) => {
     // Get the count of all answers
     Answer.count().exec((err, count) => {
 
+        if (count === 0) res.send({
+            answer: 'No Answers Available',
+            username: 'admin',
+        });
+
+        // TODO: keep track of "count"s that were tried to handle a case in which the collection only contains submissions by the current user
+
         // Get a random entry
         const random = Math.floor(Math.random() * count);
 
@@ -208,7 +215,7 @@ const getAnswer = (err, username, res) => {
  * @param res
  */
 const deleteAllAnswers = (err, res) => {
-    Answer.drop()
+    db.dropCollection('answers')
         .then(() => {
             if (err) {
                 return console.log(err);
