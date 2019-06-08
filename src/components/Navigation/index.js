@@ -36,8 +36,8 @@ const Navigation = (props) => {
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">
                     {adminControls}
-                    <Nav.Link onClick="">rules</Nav.Link>
-                    <Nav.Link onClick="">history</Nav.Link>
+                    {/*<Nav.Link onClick="">rules</Nav.Link>*/}
+                    {/*<Nav.Link onClick="">history</Nav.Link>*/}
                 </Nav>
             </Navbar.Collapse>
         </Navbar>
