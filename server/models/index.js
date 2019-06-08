@@ -160,35 +160,30 @@ const getAnswer = (err, username, res) => {
             // Again query all users but only fetch one offset by our random #
             Answer.findOne().skip(random).exec(
                 (err, answer) => {
-                    console.log('>>>>>>>>> answer = ', answer);
-                    console.log('getAnswer ID "' + answer._id + '" and was created by "' + answer.username + '"');
-
                     // make sure the answer was not created by the username
                     if (err) {
                         console.log(err);
                     } else if (username === answer.username) {
-                        console.log('>>>>> RECURSION!! <<<<<');
                         getAnswer(null, username, res);
                     } else {
-                        console.log('>>>>> ANSWER FOUND <<<<<>>>>>', answer);
 
                         // remove answer from answer table and insert into answer_history table
-                        // Answer.deleteOne({ _id: answer._id}, (err) => {
-                        //     if (err) {
-                        //         console.log(err);
-                        //     } else {
-                        //         const newAnswerHistory = new AnswerHistory({
-                        //             answer: answer.answer,
-                        //             username: answer.username,
-                        //             created_at: answer.created_at,
-                        //             last_used: new Date(),
-                        //         });
-                        //         newAnswerHistory.save()
-                        //             .then((answer) => {
-                        //                 console.log('Answer "' + answer.answer + '" added to history');
-                        //             });
-                        //     }
-                        // });
+                        Answer.deleteOne({ _id: answer._id}, (err) => {
+                            if (err) {
+                                console.log(err);
+                            } else {
+                                const newAnswerHistory = new AnswerHistory({
+                                    answer: answer.answer,
+                                    username: answer.username,
+                                    created_at: answer.created_at,
+                                    last_used: new Date(),
+                                });
+                                newAnswerHistory.save()
+                                    .then((answer) => {
+                                        console.log('Answer "' + answer.answer + '" added to history');
+                                    });
+                            }
+                        });
                         res.send(answer);
                     }
                 });
