@@ -29,12 +29,14 @@
     "watch": "npm-watch",
     "build-css": "node-sass -o css css",
     "watch-css": "nodemon -e sass -x \"npm run build-css\"",
-    "start": "react-scripts start",
+    "start": "npm-run-all start-db serve-dev",
+    "prestart": "npm install && npm run build",
     "serve-dev": "ENV NODE_ENV=development nodemon -w server --inspect --exec \"babel-node server --presets es2015,stage-0\"",
+    "serve-prod": "ENV NODE_ENV=production nodemon server --exec \"babel-node server --presets es2015,stage-0\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "start-dev": "npm-run-all start-db watch build-css watch-css start serve-dev"
+    "start-dev": "npm-run-all start-db watch build-css watch-css serve-dev"
   },
   "eslintConfig": {
     "extends": "react-app"

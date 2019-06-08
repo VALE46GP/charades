@@ -5,7 +5,6 @@ import cors from 'cors';
 import handle from './lib/reactReduxTemplate';
 import logger from './lib/logger';
 import http from 'http';
-import api from './apis/api';
 import model from './models/index';
 
 const app = express();
